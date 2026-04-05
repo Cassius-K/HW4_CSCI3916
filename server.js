@@ -81,23 +81,20 @@ router.post('/signin', async function (req, res) {
             return res.status(401).send({success: false, msg: 'Authentication failed. User cannot be located.'});
         }
 
-        const isMatch = await user.comparePassword(userNew.password);
+        // Changed this block to use your callback function from Users.js
+        user.comparePassword(userNew.password, function(isMatch) {
+            if (isMatch) {
+                var userToken = { id: user.id, username: user.username };
+                var token = jwt.sign(userToken, process.env.SECRET_KEY); 
+                res.json({success: true, token: 'JWT ' + token});
+            } else {
+                res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
+            }
+        });
 
-        if (isMatch) {
-            var userToken = { id: user.id, username: user.username };
-            var token = jwt.sign(userToken, process.env.SECRET_KEY); 
-            res.json({success: true, token: 'JWT ' + token});
-        } else {
-            res.status(401).send({success: false, msg: 'Authentication failed. Wrong password.'});
-        }
     } catch (err) {
         res.status(500).send({success: false, msg: err.message || 'An error occurred'});
     }
-});
-
-router.all('/signin', (req, res) => {
-    // Returns a message stating that the HTTP method is unsupported.
-    res.status(405).send({ message: 'HTTP method not supported.' });
 });
 
 router.route('/movies/:title')
