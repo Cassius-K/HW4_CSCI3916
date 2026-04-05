@@ -7,34 +7,14 @@ Description: Web API scaffolding for Movie API
 var express = require('express');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var mongoose = require('mongoose');
 var authController = require('./auth');
 var authJwtController = require('./auth_jwt');
 var jwt = require('jsonwebtoken');
 var cors = require('cors');
+var mongoose = require('mongoose'); 
 var User = require('./Users');
 var Movie = require('./Movies');
 var Review = require('./Reviews');
-const { MongoClient, ServerApiVersion } = require('mongodb');
-
-const uri = "mongodb+srv://CashCSCI:c4ZC1fGG74CYpRe9@csci-3916.arolsmk.mongodb.net/?retryWrites=true&w=majority&appName=CSCI-3916";
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-async function run() {
-  try {
-    await client.connect();
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    await client.close();
-  }
-}
-run().catch(console.dir);
 
 var app = express();
 app.use(cors());
@@ -62,6 +42,27 @@ function getJSONObjectForMovieRequirement(req) {
 
     return json;
 }
+
+router.post('/signup', async function(req, res) {
+    if (!req.body.username || !req.body.password) {
+        res.json({success: false, msg: 'Please include both username and password to signup.'})
+    } else {
+        var user = new User();
+        user.name = req.body.name;
+        user.username = req.body.username;
+        user.password = req.body.password;
+
+        try {
+            await user.save();
+            res.json({success: true, msg: 'Successfully created new user.'})
+        } catch (err) {
+            if (err.code == 11000)
+                return res.json({ success: false, message: 'A user with that username already exists.'});
+            else
+                return res.json(err);
+        }
+    }
+});
 
 router.all('/signup', (req, res) => {
     // Returns a message stating that the HTTP method is unsupported.
@@ -335,8 +336,6 @@ router.route('/reviews')
             }
         })
     });
-
-app.use('/', router);
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
