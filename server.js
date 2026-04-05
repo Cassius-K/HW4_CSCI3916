@@ -287,8 +287,8 @@ router.route('/reviews')
             }
             else if (data != null){
                 let rev = new Review({
-                    Name: decoded.username,
-                    content: req.body.content,
+                    username: decoded.username,
+                    review: req.body.content,
                     rating: req.body.rating,
                     movieId: req.body.movieId
                 });
