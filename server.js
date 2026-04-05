@@ -295,7 +295,7 @@ router.route('/reviews')
 
                 console.log(req.body);
 
-                rev.save(function(err){
+        rev.save(function(err){
                     if(err) {
                         res.json({message: err});
                     }
@@ -305,11 +305,15 @@ router.route('/reviews')
                                 res.status(400).json({message: "Error encountered."});
                             }
                             else{
-                                if (err){
-                                    res.json({error: err});
-                                }
-                                else if(rev.content != null){
+                                // Removed the redundant "if(err)" check here
+                                
+                                // CHANGED "content" to "review"
+                                if(rev.review != null){
                                     res.json({msg: "Review successfully saved!"});
+                                } 
+                                // ADDED a fallback else so the server NEVER hangs
+                                else { 
+                                    res.json({msg: "Review saved (but it had no text)."});
                                 }
                             }
                         });
