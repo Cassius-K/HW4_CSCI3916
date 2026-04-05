@@ -4,12 +4,6 @@ File: Server.js
 Description: Web API scaffolding for Movie API
  */
 
-/*
-CSC3916 HW4
-File: Server.js
-Description: Web API for a Movie API, integrating and improving upon initial scaffolding.
- */
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
