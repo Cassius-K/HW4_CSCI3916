@@ -4,44 +4,64 @@ File: Server.js
 Description: Web API scaffolding for Movie API
  */
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const passport = require('passport');
-const authJwtController = require('./auth_jwt'); // You're not using authController, consider removing it
-const jwt = require('jsonwebtoken');
-const cors = require('cors');
-const User = require('./Users');
-const Movie = require('./Movies'); // You're not using Movie, consider removing it
+var express = require('express');
+var bodyParser = require('body-parser');
+var passport = require('passport');
+var mongoose = require('mongoose');
+var authController = require('./auth');
+var authJwtController = require('./auth_jwt');
+var jwt = require('jsonwebtoken');
+var cors = require('cors');
+var User = require('./Users');
+var Movie = require('./Movies');
+var Review = require('./Reviews');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
-const app = express();
+const uri = "mongodb+srv://CashCSCI:c4ZC1fGG74CYpRe9@csci-3916.arolsmk.mongodb.net/?retryWrites=true&w=majority&appName=CSCI-3916";
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+async function run() {
+  try {
+    await client.connect();
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+var app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
 
-const router = express.Router();
+var router = express.Router();
 
-router.post('/signup', async function(req, res) {
-    if (!req.body.username || !req.body.password) {
-        res.json({success: false, msg: 'Please include both username and password to signup.'})
-    } else {
-        var user = new User();
-        user.name = req.body.name;
-        user.username = req.body.username;
-        user.password = req.body.password;
+function getJSONObjectForMovieRequirement(req) {
+    var json = {
+        headers: "No headers",
+        key: process.env.UNIQUE_KEY,
+        body: "No body"
+    };
 
-        try {
-            await user.save();
-            res.json({success: true, msg: 'Successfully created new user.'})
-        } catch (err) {
-            if (err.code == 11000)
-                return res.json({ success: false, message: 'A user with that username already exists.'});
-            else
-                return res.json(err);
-        }
+    if (req.body != null) {
+        json.body = req.body;
     }
-});
+
+    if (req.headers != null) {
+        json.headers = req.headers;
+    }
+
+    return json;
+}
 
 router.all('/signup', (req, res) => {
     // Returns a message stating that the HTTP method is unsupported.
