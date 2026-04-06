@@ -24,43 +24,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 var router = express.Router();
+//not sure if this works
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2DVL9RXW2W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-const GA_TRACKING_ID = process.env.GA_KEY;
-
-function trackDimension(category, action, label, value, dimension, metric) {
-
-    var options = { method: 'GET',
-        url: 'https://www.google-analytics.com/collect',
-        qs:
-            {   // API Version.
-                v: '1',
-                // Tracking ID / Property ID.
-                tid: GA_TRACKING_ID,
-                // Random Client Identifier. Ideally, this should be a UUID that
-                // is associated with particular user, device, or browser instance.
-                cid: crypto.randomBytes(16).toString("hex"),
-                // Event hit type.
-                t: 'event',
-                // Event category.
-                ec: category,
-                // Event action.
-                ea: action,
-                // Event label.
-                el: label,
-                // Event value.
-                ev: value,
-                // Custom Dimension
-                cd1: dimension,
-                // Custom Metric
-                cm1: metric
-            },
-        headers:
-            {  'Cache-Control': 'no-cache' } };
-
-    return rp(options);
-}
-
-
+  gtag('config', 'G-2DVL9RXW2W');
+</script>
 
 function getJSONObjectForMovieRequirement(req) {
     var json = {
