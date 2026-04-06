@@ -24,16 +24,36 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
 var router = express.Router();
-//not sure if this works
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2DVL9RXW2W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-2DVL9RXW2W');
-</script>
+app.use((req, res, next) => {
+    if (process.env.GA_MEASUREMENT_ID && process.env.GA_API_SECRET) {
+        
+        const clientId = crypto.randomUUID(); 
+
+        const url = `https://www.google-analytics.com/mp/collect?measurement_id=${process.env.GA_MEASUREMENT_ID}&api_secret=${process.env.GA_API_SECRET}`;
+
+        const payload = {
+            client_id: clientId,
+            events: [{
+                name: 'api_request', 
+                params: {
+                    method: req.method,      
+                    path: req.path,          
+                    user_agent: req.headers['user-agent'] || 'unknown' 
+                }
+            }]
+        };
+
+        //Fire and forget to Google Analytics
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: { 'Content-Type': 'application/json' }
+        }).catch(err => console.log("Failed to send GA data:", err));
+    }
+    
+    next();
+});
 
 function getJSONObjectForMovieRequirement(req) {
     var json = {
