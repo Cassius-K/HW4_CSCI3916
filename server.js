@@ -25,6 +25,43 @@ app.use(passport.initialize());
 
 var router = express.Router();
 
+const GA_TRACKING_ID = process.env.GA_KEY;
+
+function trackDimension(category, action, label, value, dimension, metric) {
+
+    var options = { method: 'GET',
+        url: 'https://www.google-analytics.com/collect',
+        qs:
+            {   // API Version.
+                v: '1',
+                // Tracking ID / Property ID.
+                tid: GA_TRACKING_ID,
+                // Random Client Identifier. Ideally, this should be a UUID that
+                // is associated with particular user, device, or browser instance.
+                cid: crypto.randomBytes(16).toString("hex"),
+                // Event hit type.
+                t: 'event',
+                // Event category.
+                ec: category,
+                // Event action.
+                ea: action,
+                // Event label.
+                el: label,
+                // Event value.
+                ev: value,
+                // Custom Dimension
+                cd1: dimension,
+                // Custom Metric
+                cm1: metric
+            },
+        headers:
+            {  'Cache-Control': 'no-cache' } };
+
+    return rp(options);
+}
+
+
+
 function getJSONObjectForMovieRequirement(req) {
     var json = {
         headers: "No headers",
@@ -307,7 +344,6 @@ router.route('/reviews')
                             else{
                                 // Removed the redundant "if(err)" check here
                                 
-                                // CHANGED "content" to "review"
                                 if(rev.review != null){
                                     res.json({msg: "Review successfully saved!"});
                                 } 
@@ -327,7 +363,7 @@ router.route('/reviews')
     })
 
     .get(authJwtController.isAuthenticated, function (req, res) {
-        Review.find({}, 'content', function(err, data) {
+        Review.find({}, 'review', function(err, data) {
             if (err || data.length == 0) {
                 res.json({status: 400, message: "No reviews found."})
             }
