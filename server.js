@@ -363,7 +363,7 @@ router.route('/reviews')
     })
 
     .get(authJwtController.isAuthenticated, function (req, res) {
-        Review.find({}, 'review', function(err, data) {
+        Review.find({}, 'reviews', function(err, data) {
             if (err || data.length == 0) {
                 res.json({status: 400, message: "No reviews found."})
             }
