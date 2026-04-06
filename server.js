@@ -363,12 +363,12 @@ router.route('/reviews')
     })
 
     .get(authJwtController.isAuthenticated, function (req, res) {
-        Review.find({}, 'reviews', function(err, data) {
+        Review.find({}, 'review', function(err, data) {
             if (err || data.length == 0) {
                 res.json({status: 400, message: "No reviews found."})
             }
             else {
-                const allReviews = data.map(review => review.content);
+                const allReviews = data.map(review => review.review);
                 res.json({status: 200, message: "REVIEWS", reviews: allReviews});
             }
         })
