@@ -1,0 +1,700 @@
+{
+  "info": {
+    "_postman_id": "b85ccf7f-336a-4195-b2c8-c6f49d5a21b0",
+    "name": "CSCI3196_HW4",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51830832",
+    "_collection_link": "https://go.postman.co/collection/51830832-b85ccf7f-336a-4195-b2c8-c6f49d5a21b0?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Signup",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\" : \"TransAm\",\r\n    \"username\" : \"FireBird\",\r\n    \"password\" : \"SixPointSix\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/signup",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Signin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = JSON.parse(responseBody);\r",
+              "postman.setEnvironmentVariable(\"token\", data.token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\" : \"FireBird\",\r\n    \"password\" : \"SixPointSix\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/signin",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "signin"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Movies (all)",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Movies (single)",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies/A New Hope",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies",
+            "A New Hope"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Movie",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\r\n    \"title\" : \"The Last Crusade\",\r\n    \"releaseDate\" : \"1989\",\r\n    \"genre\" : \"Action\",\r\n    \"actors\" : [\r\n        {\r\n            \"actorName\" : \"Harrison Ford\",\r\n            \"characterName\" : \"Indiana Jones\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Sean Connery\",\r\n            \"characterName\" : \"Professor Henry Jones\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Denholm Elliot\",\r\n            \"characterName\" : \"Marcus Brody\"\r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Movie",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\r\n\t\t\"title\" : \"The Last Crusade\",\r\n    \"releaseDate\" : \"1989\",\r\n    \"genre\" : \"Adventure\",\r\n    \"actors\" : [\r\n        {\r\n            \"actorName\" : \"Harrison Ford\",\r\n            \"characterName\" : \"Indiana Jones\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Sean Connery\",\r\n            \"characterName\" : \"Professor Henry Jones\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Denholm Elliot\",\r\n            \"characterName\" : \"Marcus Brody\"\r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies/The Last Crusade",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies",
+            "The Last Crusade"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Movie",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies/The Last Crusade",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies",
+            "The Last Crusade"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post Review",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\t\"movieId\" : \"69b664cebc5e99230061a41f\",\r\n\t\"review\" : \"Intriguing story and universe to explore\",\r\n\t\"rating\" : \"4\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/reviews",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "reviews"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get reviews (all)",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/reviews",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "reviews"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get movies and reviews",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\r\n    \"title\" : \"The Last Crusade\",\r\n    \"releaseDate\" : \"1989\",\r\n    \"genre\" : \"Action\",\r\n    \"actors\" : [\r\n        {\r\n            \"actorName\" : \"Harrison Ford\",\r\n            \"characterName\" : \"Indiana Jones\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Sean Connery\",\r\n            \"characterName\" : \"Professor Henry Jones\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Denholm Elliot\",\r\n            \"characterName\" : \"Marcus Brody\"\r\n        }\r\n    ]\r\n}"
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies?reviews=true",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies"
+          ],
+          "query": [
+            {
+              "key": "reviews",
+              "value": "true"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Signup (Account already exists)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\" : \"Rocky\",\r\n    \"username\" : \"Doggo\",\r\n    \"password\" : \"Bone\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/signup",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Empty Fields (Signup)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/signup",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Signup Fail",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\" : \"Doggo\",\r\n    \"password\" : \"Bone\"\r\n}"
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/signup",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "signup"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect user",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = JSON.parse(responseBody);\r",
+              "postman.setEnvironmentVariable(\"token\", data.token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\" : \"DoggoSupreme\",\r\n    \"password\" : \"Bone\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/signin",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "signin"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Incorrect Pass",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var data = JSON.parse(responseBody);\r",
+              "postman.setEnvironmentVariable(\"token\", data.token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"username\" : \"Doggo\",\r\n    \"password\" : \"DronesAreHere\"\r\n}"
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/signin",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "signin"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Movie (Bad Gateway)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\r\n    \"title\" : \"Revenge of The Sith\",\r\n    \"releaseDate\" : \"2005\",\r\n    \"genre\" : \"Science Fiction\",\r\n    \"actors\" : [\r\n        {\r\n            \"actorName\" : \"Hayden Christensen\",\r\n            \"characterName\" : \"Anakin Skywalker\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Ewon McGregor\",\r\n            \"characterName\" : \"Obi-Wan Kenobi\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Natalie Portman\",\r\n            \"characterName\" : \"Padme Amidala\" \r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies/Revenge of The SIth",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies",
+            "Revenge of The SIth"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Movie (Less than 3 Actors)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\r\n    \"title\" : \"Revenge of The Sith\",\r\n    \"releaseDate\" : \"2005\",\r\n    \"genre\" : \"Science Fiction\",\r\n    \"actors\" : [\r\n        {\r\n            \"actorName\" : \"Hayden Christensen\",\r\n            \"characterName\" : \"Anakin Skywalker\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Ewon McGregor\",\r\n            \"characterName\" : \"Obi-Wan Kenobi\"\r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Movie (Movie Can't Be Found)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies/The Last Crusaders",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies",
+            "The Last Crusaders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Movie (Movie Can't Be Found)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n\r\n\t\t\"title\" : \"The Last Crusade\",\r\n    \"releaseDate\" : \"1989\",\r\n    \"genre\" : \"Adventure\",\r\n    \"actors\" : [\r\n        {\r\n            \"actorName\" : \"Harrison Ford\",\r\n            \"characterName\" : \"Indiana Jones\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Sean Connery\",\r\n            \"characterName\" : \"Professor Henry Jones\"\r\n        },\r\n        {\r\n            \"actorName\" : \"Denholm Elliot\",\r\n            \"characterName\" : \"Marcus Brody\"\r\n        }\r\n    ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/movies/The Last Crusaders",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "movies",
+            "The Last Crusaders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post Review (failure)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{token}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"movieId\" : \"Doggo\",\r\n    \"review\" : \"Bone\",\r\n    \"rating\" : \"5\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://hw4-csci3916.onrender.com/reviews",
+          "protocol": "https",
+          "host": [
+            "hw4-csci3916",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "reviews"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
